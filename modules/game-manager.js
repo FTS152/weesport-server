@@ -41,15 +41,10 @@ var games = db.collection('games');
 exports.addNewGame = function(newData, callback)
 {
 	newData.status = 0;
+	newData.rank = 0;
 	games.insert(newData, {safe: true}, callback);
 
 }
-
-exports.deleteAccount = function(id, callback)
-{
-	games.remove({_id: getObjectId(id)}, callback);
-}
-
 
 exports.getAllRecords = function(callback)
 {
@@ -60,12 +55,28 @@ exports.getAllRecords = function(callback)
 	});
 }
 
+exports.ranking = function(id,rank,callback)
+{
+	games.update( {_id: getObjectId(id)},{ $set : {rank:rank} },callback)
+}
+
+exports.candidate = function(id,candidator,callback)
+{
+	games.update( {_id: getObjectId(id)},{ $push : {candidator:candidator} },callback)
+}
+
+exports.matching = function(id,matcher,callback)
+{
+	games.update( {_id: getObjectId(id)},{ $set : {status:1} },callback)
+	games.update( {_id: getObjectId(id)},{ $set : {matcher:matcher} },callback)
+}
+
 exports.deleteGame = function(id, callback)
 {
 	games.remove({_id: getObjectId(id)}, callback);
 }
 
-var findById = function(id, callback)
+exports.findById = function(id, callback)
 {
 	games.findOne({_id: getObjectId(id)},
 		function(e, res) {
