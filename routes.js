@@ -3,7 +3,6 @@ var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var GM = require('./modules/game-manager');
 var EM = require('./modules/email-dispatcher');
-
 module.exports = function(app) {
 
 // main login page //
@@ -61,7 +60,9 @@ module.exports = function(app) {
 			team 	: req.body['team'],
 			locat	: req.body['locat'],
 			contact : req.body['contact'],
-			user 	: req.cookies.user_id
+			user 	: req.session.user._id,
+			candidator:null,
+			matcher : null
 		}, function(e){
 			if (e){
 				res.status(400).send(e);
@@ -79,6 +80,15 @@ module.exports = function(app) {
                         games[user._id.toString()] = user;
                     })
                     return res.json(games);
+                });
+        });
+
+	 app.get('/list/game/:URL',function(req, res) {
+	 			var url = req.params.URL;
+				GM.findById(url,function(err, game) {
+						console.log(game);
+						
+                    	return res.json(game);
                 });
         });
 
@@ -110,6 +120,6 @@ module.exports = function(app) {
 		});
 	});
 
-	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
+	app.get('*', function(req, res) { res.render('404.ejs', { title: 'Page Not Found'}); });
 
 };
