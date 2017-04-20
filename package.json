@@ -1,14 +1,14 @@
 {
-  "name": "node-login",
-  "version": "1.5.0",
-  "description": "A template for quickly building login systems on top of Node.js & MongoDb",
-  "author": "Stephen Braitsch <stephen@braitsch.io>",
+  "name": "wee-sport",
+  "version": "1.0.0",
+  "description": "App",
+  "author": "fts152",
   "website": {
-    "url": "https://nodejs-login.herokuapp.com"
+    "url": "https://github.com/FTS152/weesport-server/"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:braitsch/node-login.git"
+    "url": "b04705007@ntu.edu.tw"
   },
   "dependencies": {
     "body-parser": "1.14.1",
@@ -19,7 +19,6 @@
     "errorhandler": "1.4.2",
     "express": "^4.13.3",
     "express-session": "1.11.3",
-    "jade": "1.11.0",
     "moment": "2.10.3",
     "mongodb": "2.0.45",
     "stylus": "0.52.4"
