@@ -14,6 +14,7 @@ var errorHandler = require('errorhandler');
 var cookieParser = require('cookie-parser');
 var MongoStore = require('connect-mongo')(session);
 var schedule = require('node-schedule');
+var GM = require('./modules/game-manager');
 
 var app = express();
 
@@ -45,7 +46,32 @@ app.use(session({
 	store: new MongoStore({ url: dbURL })
 	})
 );
+/*
 
+	var Status = schedule.scheduleJob('0.1 * * * *', function(){ 
+				today = new Date();
+				today_year = today.getFullYear(); 
+				today_month = today.getMonth()+1; 
+				today_date = today.getDate(); 
+				today_hours = today.getHours(); 
+				today_minutes = today.getMinutes(); 
+				today_seconds = today.getSeconds(); 
+				var CurrentDate = today_year+"-"+today_month+"-"+today_date+"  "+today_hours+":"+today_minutes+":"+today_seconds;
+                GM.getAllRecords(function(err, users) {
+                    users.forEach(function(user) {
+                        if((Date.parse(user.date)).valueOf() < (Date.parse(CurrentDate)).valueOf()){
+	                        GM.finishing(function(e){
+							if (e){
+								console.log("ok");
+							}	else{
+								console.log("error");
+							}
+						});
+                      }
+                    })
+                });
+	});
+*/
 require('./routes')(app);
 
 http.createServer(app).listen(app.get('port'), function(){

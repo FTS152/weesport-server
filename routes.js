@@ -3,6 +3,9 @@ var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var GM = require('./modules/game-manager');
 var EM = require('./modules/email-dispatcher');
+
+
+
 module.exports = function(app) {
 
 // main login page //
@@ -81,16 +84,66 @@ module.exports = function(app) {
                     })
                     return res.json(games);
                 });
+
         });
+
 
 	 app.get('/list/game/:URL',function(req, res) {
 	 			var url = req.params.URL;
 				GM.findById(url,function(err, game) {
 						console.log(game);
-						
-                    	return res.json(game);
+		                if(game.status==0&&req.session.user._id!=game.user){
+		                	game.manipulateType="matching";
+		                }
+		                else if(game.status==0&&req.session.user._id==game.user){
+		                	game.manipulateType="selecting";
+		                }
+		                else if(game.status==1){
+		                	game.manipulateType="justviewing";
+		                }
+		                else if(game.status==2&&req.session.user._id==game.user){
+		                	game.manipulateType="ranking";
+		                }
+		                else if(game.status==2&&req.session.user._id!=game.user){
+		                	game.manipulateType="justviewing";
+		                }
+                    	res.render('listgame.ejs', {'game': game});
                 });
+
         });
+
+	 app.post('/list/game/:URL',function(req, res) {
+	 			var url = req.params.URL;
+				if(req.body['button']=="matching"){
+						GM.candidate(url,req.session.user, function(e){
+						if (e){
+							res.status(400).send(e);
+						}	else{
+							res.redirect('/list');
+						}
+					});
+				}
+				if(req.body['button']=="selecting"){
+						GM.selecting(url,req.body['id'], function(e){
+						if (e){
+							res.status(400).send(e);
+						}	else{
+							res.redirect('/list');
+						}
+					});
+				}
+				if(req.body['button']=="ranking"){
+						GM.ranking(url,req.body['rank'], function(e){
+						if (e){
+							res.status(400).send(e);
+						}	else{
+							res.redirect('/list');
+						}
+					});
+				}
+
+        });
+
 
 	app.post('/logout', function(req, res){
 		res.clearCookie('user');
