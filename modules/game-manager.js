@@ -65,12 +65,16 @@ exports.candidate = function(id,candidator,callback)
 	games.update( {_id: getObjectId(id)},{ $push : {candidator:candidator} },callback)
 }
 
-exports.matching = function(id,matcher,callback)
+exports.selecting = function(id,matcher,callback)
 {
 	games.update( {_id: getObjectId(id)},{ $set : {status:1} },callback)
 	games.update( {_id: getObjectId(id)},{ $set : {matcher:matcher} },callback)
 }
 
+exports.finishing = function(callback)
+{
+	games.update( {_id: getObjectId(id)},{ $set : {status:2} },callback)
+}
 exports.deleteGame = function(id, callback)
 {
 	games.remove({_id: getObjectId(id)}, callback);
