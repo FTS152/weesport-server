@@ -113,7 +113,7 @@ module.exports = function(app) {
 		                else if(game.status==2&&req.session.user._id!=game.user){
 		                	game.manipulateType="justviewing";
 		                }
-                    	res.render('listgame.ejs', {'game': game});
+                    	res.render('listgame.ejs', {game: game});
                 });
 
         });
