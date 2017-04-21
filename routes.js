@@ -60,9 +60,15 @@ module.exports = function(app) {
 		GM.addNewGame({
 			sport 	: req.body['sport'],
 			date 	: req.body['date'],
+			time	: req.body['time'],
 			team 	: req.body['team'],
 			locat	: req.body['locat'],
-			contact : req.body['contact'],
+			notes   : req.body['notes'],
+			name 	: req.body['name'],
+			phone 	: req.body['phone'],
+			email 	: req.body['email'],
+			FB 		: req.body['FB'],
+			line 	: req.body['line'],
 			user 	: req.session.user._id,
 			candidator:null,
 			matcher : null
