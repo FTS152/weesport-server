@@ -95,6 +95,10 @@ module.exports = function(app) {
 
 
 	 app.get('/list/game/:URL',function(req, res) {
+		 if (req.session.user == null){
+	// if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		}	else{
 	 			var url = req.params.URL;
 				GM.findById(url,function(err, game) {
 						console.log(game);
@@ -115,6 +119,7 @@ module.exports = function(app) {
 		                }
                     	res.render('listgame.ejs', {game: game});
                 });
+	    }
 
         });
 
